@@ -12,7 +12,7 @@ body {
 .navbar {
     height: 100%;
     width: 25%;
-    background-color: aqua;
+    background-color: #00FA9A;
     padding: 2rem;
     position: fixed;
     z-index: 1;

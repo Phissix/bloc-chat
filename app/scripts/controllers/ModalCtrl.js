@@ -1,29 +1,26 @@
 (function() {
-    function ModalCtrl($uibModal, $log, Room) {
+    function ModalCtrl($scope, Room, $uibModalInstance) {
+        //changed whole logic of code (included ModalInstance here instead of seperate file) for cleaner code
+        //will add code docstring later
+        $scope.createRoom = function(name) {
+            if(name !== undefined) {
+                Room.makeRoom({
+                    name: name,
+                    date: new Date()
+                });
+                $uibModalInstance.close();
+            }
+            else if(name === undefined) {
+                $uibModalInstance.close();
+            }
+        }
 
-       this.open = function() {
-            var modalInstance = $uibModal.open({
-                animation: this.animationsEnabled,
-                templateUrl : '/templates/modal.html',
-                controller: 'ModalInstanceCtrl',
-                controllerAs: 'modal'
-
-            });
-
-           modalInstance.result.then(function(name) {
-               this.room = name;
-               Room.create(this.room);
-           }, function() {
-               $log.info('Modal dismissed at ' + new Date());
-           });
-       };
-
-       this.toggleAnimation = function () {
-            this.animationsEnabled = !this.animationsEnabled;
-       };
+        $scope.cancelRoom = function() {
+            $uibModalInstance.close();
+        }
     }
 
     angular
         .module('blocChat')
-        .controller('ModalCtrl', ['$uibModal', '$log', 'Room', ModalCtrl]);
+        .controller('ModalCtrl',['$scope', 'Room', '$uibModalInstance', ModalCtrl]);
 })();

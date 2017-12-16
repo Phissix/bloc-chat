@@ -1,14 +1,17 @@
-<section ng-controller="HomeCtrl as home">
-    <div class="navbar">
-        <h1>Bloc Chat</h1>
+<section class="side-bar">
+    <h1>Bloc Chat</h1>
+    <button type="button" ng-click="addRoomModal()">New Room</button>
+    <div class="chat-rooms" ng-repeat="room in roomList" ng-click="setCurrentRoom(room)">
+        <p>{{ room.name }}</p>
+    </div>
+</section>
 
-        <div ng-controller='ModalCtrl as modal'>
-        <button type="button" class="btn btn-default" ng-click="modal.open()">New room</button>
-        </div>
-
-        <h4 ng-repeat="room in home.rooms">
-        {{ room.$value }}
-        </h4>
-
+<section class="currentRoom">
+    <div class="chat-name">
+        <h3>{{ currentRoom.name }}</h3>
+    </div>
+    <div class="chat-messages" ng-repeat="message in messages">
+        <p>{{ message.username }} @ {{message.sentAt }}</p>
+        <p>{{ message.content }}</p>
     </div>
 </section>

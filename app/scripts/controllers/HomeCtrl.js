@@ -1,7 +1,9 @@
 (function() {
-    function HomeCtrl($scope, Room, $uibModal, Message) {
+    function HomeCtrl($scope, Room, $cookies, $uibModal, Message) {
         $scope.roomList = Room.all;
         $scope.messages = {};
+        $scope.currentRoom = null;
+        $scope.currentUser = $cookies.get('blocChatCurrentUser');
 
         //Set and Add methods
         $scope.setCurrentRoom = function(room) {
@@ -16,9 +18,20 @@
   	        controller: 'ModalCtrl'
      	   })
        };
+
+       //message and logout methods
+       $scope.sendMessage = function(room){
+            Message.send($scope.newMessage, room.$id);
+            $scope.newMessage = null;
+       };
+
+       $scope.logOut = function() {
+            $cookies.remove('blocChatCurrentUser');
+            window.location.reload();
+       }
     }
 
     angular
         .module('blocChat')
-        .controller('HomeCtrl',['$scope', 'Room', '$uibModal', 'Message', HomeCtrl]);
+        .controller('HomeCtrl',['$scope', 'Room', '$cookies', '$uibModal', 'Message', HomeCtrl]);
 })();
